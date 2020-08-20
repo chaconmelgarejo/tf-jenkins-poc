@@ -4,7 +4,7 @@
 ############################################
 terraform {
   backend "s3" {
-    bucket = "tflabs-backends"
+    bucket = "tflabs-backend"
     key    = "my.tfstate"
     region = "sa-east-1"
   }
