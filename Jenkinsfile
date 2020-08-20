@@ -19,6 +19,15 @@ pipeline {
     }
 
     stages {
+
+        stage('LoadingVars'){
+            steps {
+                dir('infra-as-code/'){
+                    sh "echo -e 'tag_name=${params.WORKSPACE}\nmachine_type=t3.micro' > terraform.tfvars"
+                }
+            }
+        }
+
         
         stage('ApplicationInit'){
             steps {

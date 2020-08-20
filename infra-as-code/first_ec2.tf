@@ -24,6 +24,10 @@ variable "aws_region" {
     default = "sa-east-1"
 }
 
+variable "tag_name" {
+    default = "tf-machine"
+}
+
 variable "aws_path_creds" {
     default = "$HOME/.aws/credentials"
 }
@@ -92,7 +96,7 @@ resource "aws_instance" "web" {
   subnet_id = element(local.subnet_ids_list,0)
 
   tags = {
-    Name = "tf-machine"
+    Name = var.tag_name
   }
 }
 
