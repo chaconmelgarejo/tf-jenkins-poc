@@ -6,7 +6,7 @@ terraform {
   backend "s3" {
     bucket = "terraform-foo-labs"
     key    = "jenkins.tfstate"
-    region = "sa-east-1"
+    region = "us-east-1"
   }
 }
 
