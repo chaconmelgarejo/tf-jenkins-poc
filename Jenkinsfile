@@ -24,10 +24,10 @@ pipeline {
             steps {
                 dir('infra-as-code/'){
                     sh 'terraform --version'
-                    sh 'terraform init \
-                            -backend-config="bucket=terraform-foo-labs" \
-                            -backend-config="key=services/${params.WORKSPACE}.tfstate" \
-                            -backend-config="region=us-east-1"'
+                    sh "terraform init \
+                            -backend-config='bucket=terraform-foo-labs' \
+                            -backend-config='key=services/${params.WORKSPACE}.tfstate' \
+                            -backend-config='region=us-east-1'"
                 }
             }
         }
