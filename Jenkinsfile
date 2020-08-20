@@ -83,7 +83,7 @@ pipeline {
                     if(apply){
                         dir('infra-as-code/'){
                             unstash "terraform-applications-plan"
-                            sh "terraform apply terraform-${params.WORKSPACE}.tfplan -var-file='${params.WORKSPACE}.tfvars'"
+                            sh "terraform apply terraform-${params.WORKSPACE}.tfplan -var-file='vars/${params.WORKSPACE}.tfvars'"
                         }
                     }
                 }
