@@ -23,7 +23,7 @@ pipeline {
         stage('ApplicationInit'){
             steps {
                 dir('infra-as-code/'){
-                    sh 'terraform --version'
+                    sh "terraform --version"
                     sh "terraform init \
                             -backend-config='bucket=terraform-foo-labs' \
                             -backend-config='key=services/${params.WORKSPACE}.tfstate' \
@@ -73,7 +73,7 @@ pipeline {
                     if(apply){
                         dir('infra-as-code/'){
                             unstash "terraform-applications-plan"
-                            sh 'terraform apply terraform-${params.WORKSPACE}.tfplan'
+                            sh "terraform apply terraform-${params.WORKSPACE}.tfplan"
                         }
                     }
                 }
