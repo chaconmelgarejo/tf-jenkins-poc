@@ -23,7 +23,7 @@ pipeline {
         stage('LoadingVars'){
             steps {
                 dir('infra-as-code/'){
-                    sh "echo -e 'tag_name = "${params.WORKSPACE}"\nmachine_type = "t3.micro"' > ${params.WORKSPACE}.tfvars"
+                    sh "echo -e 'tag_name = ${params.WORKSPACE}\nmachine_type = t3.micro' > ${params.WORKSPACE}.tfvars"
                     sh "cat ${params.WORKSPACE}.tfvars"
                 }
             }
