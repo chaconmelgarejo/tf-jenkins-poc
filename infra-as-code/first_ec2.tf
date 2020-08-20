@@ -4,8 +4,8 @@
 ############################################
 terraform {
   backend "s3" {
-    bucket = "tflabs-backend"
-    key    = "my.tfstate"
+    bucket = "terraform-foo-labs"
+    key    = "jenkins.tfstate"
     region = "sa-east-1"
   }
 }
