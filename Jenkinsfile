@@ -72,4 +72,9 @@ pipeline {
             }
         }
     }
+    post { 
+        always { 
+            cleanWs()
+        }
+    }
 }
