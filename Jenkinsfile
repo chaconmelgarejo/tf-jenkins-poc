@@ -59,7 +59,7 @@ pipeline {
                         } catch (err) {
                             sh "terraform workspace select ${params.WORKSPACE}"
                         }
-                        sh "terraform plan -var-file='vars/${params.WORKSPACE}.tfvars -out terraform-${params.WORKSPACE}.tfplan;echo \$? > status"
+                        sh "terraform plan -var-file=vars/${params.WORKSPACE}.tfvars -out terraform-${params.WORKSPACE}.tfplan;echo \$? > status"
                         stash name: "terraform-applications-plan", includes: "terraform-${params.WORKSPACE}.tfplan"
                     }
                 }
