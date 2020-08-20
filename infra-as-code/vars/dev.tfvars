@@ -1,2 +1,2 @@
-tag_name = "dev"
-machine_type = "t3.micro"
+tag_name = "dev-tag"
+env = "dev"

@@ -37,7 +37,16 @@ variable "aws_profile" {
 }
 
 variable "machine_type" {
-    default = "t3.micro"
+  default ={
+      dev = "t3.micro"
+      qa = "t3.micro"
+      uat = "t3.medium"
+      prod = "t3.medium"
+    }
+}
+
+variable "env" {
+    default = "dev"
 }
 
 ############################################
@@ -91,7 +100,7 @@ data "aws_subnet" "_" {
 resource "aws_instance" "web" {
   ami           = data.aws_ami.ubuntu.id
   //for_each      = data.aws_subnet_ids._.ids
-  instance_type = var.machine_type
+  instance_type = var.machine_type[var.env]
   //subnet_id = each.value
   subnet_id = element(local.subnet_ids_list,0)
 

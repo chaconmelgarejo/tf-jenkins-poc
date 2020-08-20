@@ -1,2 +1,2 @@
-tag_name = "test"
-machine_type = "t3.micro"
+tag_name = "qa-tag"
+env = "qa"
