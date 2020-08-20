@@ -23,8 +23,8 @@ pipeline {
         stage('LoadingVars'){
             steps {
                 dir('infra-as-code/'){
-                    sh "echo -e 'tag_name = "${params.WORKSPACE}"\nmachine_type = "t3.micro"' > terraform.tfvars"
-                    sh "cat terraform.tfvars"
+                    sh "echo -e 'tag_name = "${params.WORKSPACE}"\nmachine_type = "t3.micro"' > ${params.WORKSPACE}.tfvars"
+                    sh "cat ${params.WORKSPACE}.tfvars"
                 }
             }
         }
@@ -83,7 +83,7 @@ pipeline {
                     if(apply){
                         dir('infra-as-code/'){
                             unstash "terraform-applications-plan"
-                            sh "terraform apply terraform-${params.WORKSPACE}.tfplan"
+                            sh "terraform apply terraform-${params.WORKSPACE}.tfplan -var-file='${params.WORKSPACE}.tfvars'"
                         }
                     }
                 }
