@@ -4,7 +4,8 @@ pipeline {
         "org.jenkinsci.plugins.terraform.TerraformInstallation" "terraform"
     }
     parameters {
-        string(name: 'WORKSPACE', defaultValue: 'development', description:'workspace to use in Terraform')
+        choice(choices: ['dev', 'qa', 'uat','prod'], description:'workspace to use in Terraform', name: 'WORKSPACE')
+        //string(name: 'WORKSPACE', defaultValue: 'development', description:'workspace to use in Terraform')
     }
 
     environment {
@@ -18,14 +19,19 @@ pipeline {
     }
 
     stages {
+        
         stage('ApplicationInit'){
             steps {
                 dir('infra-as-code/'){
                     sh 'terraform --version'
-                    sh "terraform init"
+                    sh 'terraform init \
+                            -backend-config="bucket=terraform-foo-labs" \
+                            -backend-config="key=services/${params.WORKSPACE}.tfstate" \
+                            -backend-config="region=us-east-1"'
                 }
             }
         }
+
         stage('ApplicationValidate'){
             steps {
                 dir('infra-as-code/'){
@@ -33,6 +39,7 @@ pipeline {
                 }
             }
         }
+        
         stage('ApplicationPlan'){
             steps {
                 dir('infra-as-code/'){
@@ -42,12 +49,13 @@ pipeline {
                         } catch (err) {
                             sh "terraform workspace select ${params.WORKSPACE}"
                         }
-                        sh "terraform plan -out terraform-applications.tfplan;echo \$? > status"
-                        stash name: "terraform-applications-plan", includes: "terraform-applications.tfplan"
+                        sh "terraform plan -out terraform-${params.WORKSPACE}.tfplan;echo \$? > status"
+                        stash name: "terraform-applications-plan", includes: "terraform-${params.WORKSPACE}.tfplan"
                     }
                 }
             }
         }
+        
         stage('ApplicationApply'){
             steps {
                 script{
@@ -65,7 +73,7 @@ pipeline {
                     if(apply){
                         dir('infra-as-code/'){
                             unstash "terraform-applications-plan"
-                            sh 'terraform apply terraform-applications.tfplan'
+                            sh 'terraform apply terraform-${params.WORKSPACE}.tfplan'
                         }
                     }
                 }
