@@ -84,6 +84,8 @@ pipeline {
                         dir('infra-as-code/'){
                             unstash "terraform-applications-plan"
                             sh "terraform apply terraform-${params.WORKSPACE}.tfplan"
+                            sh "terraform workspace select default"
+                            sh "terraform workspace delete ${params.WORKSPACE}"
                         }
                     }
                 }
